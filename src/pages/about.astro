@@ -1,0 +1,103 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Mark from "../components/Mark.astro";
+import CTA from "../components/CTA.astro";
+---
+
+<Layout
+  title="About — Hah. Studio"
+  description="Meet the thinking behind Hah. An independent creative studio built on curiosity, clarity, and care."
+  current="About"
+>
+  <section class="page-hero shell">
+    <p class="eyebrow">A little about us</p>
+    <h1>
+      Small by design.
+      <br />
+      <span class="muted">Curious by nature.</span>
+    </h1>
+    <p class="page-lead">
+      Hah. is an independent creative studio for people who believe thoughtful
+      design can make a difference.
+    </p>
+  </section>
+  <section class="about-story shell">
+    <div class="signature-panel">
+      <span class="eyebrow">THE MOMENT IT CLICKS.</span>
+      <Mark />
+      <span>A little spark. A fresh perspective.</span>
+    </div>
+    <div class="story-copy">
+      <p class="eyebrow">Why Hah.?</p>
+      <h2>
+        That little moment
+        <br />
+        of discovery.
+      </h2>
+      <p>
+        An idea falls into place. Something familiar feels new. A complicated
+        thing suddenly makes sense. That’s the feeling behind Hah.
+      </p>
+      <p>
+        Our work brings strategy and instinct together. We ask questions, look
+        closely, and give ideas space to develop. Then we turn the strongest
+        ones into brands and digital experiences with a clear purpose.
+      </p>
+      <p>
+        We like honest conversations, considered details, and making things that
+        are a pleasure to use.
+      </p>
+    </div>
+  </section>
+  <section class="values-section shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">The things we come back to</p>
+        <h2>
+          Clear thinking.
+          <br />
+          Careful making.
+        </h2>
+      </div>
+    </div>
+    <div class="values-grid">
+      {[
+        [
+          "01",
+          "Clarity first",
+          "Start with the right questions. Understand what matters, then make it easy to see.",
+        ],
+        [
+          "02",
+          "Character always",
+          "Find what makes an idea yours. Give it a voice and a visual language that feel unmistakable.",
+        ],
+        [
+          "03",
+          "Care in the details",
+          "The little things shape the whole experience. We give them the attention they deserve.",
+        ],
+      ].map(([number, title, copy]) => (
+        <article>
+          <span class="eyebrow red">{number}</span>
+          <h3>{title}</h3>
+          <p>{copy}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+  <section class="quote-section shell">
+    <span class="red quote-mark" aria-hidden="true">
+      “
+    </span>
+    <h2>
+      Make it simple.
+      <br />
+      Make it thoughtful.
+      <br />
+      <span class="muted">Make it feel right.</span>
+    </h2>
+    <p class="eyebrow">The Hah. approach</p>
+  </section>
+  <CTA />
+</Layout>

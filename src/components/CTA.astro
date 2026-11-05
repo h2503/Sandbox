@@ -1,0 +1,23 @@
+---
+import Arrow from "./Arrow.astro";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<section class="cta-section shell">
+  <div>
+    <p class="eyebrow">A good place to begin</p>
+    <h2>
+      Something in mind<span class="red">?</span>
+      <br />
+      Let’s make it matter.
+    </h2>
+  </div>
+  <a
+    class="circle-link"
+    href={`${base}/contact/`}
+    aria-label="Start a conversation"
+  >
+    <Arrow />
+    <span>Let’s talk</span>
+  </a>
+</section>

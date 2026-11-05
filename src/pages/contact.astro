@@ -1,0 +1,234 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Arrow from "../components/Arrow.astro";
+const email = import.meta.env.PUBLIC_CONTACT_EMAIL || "hafiizhamid@gmail.com";
+---
+
+<Layout
+  title="Contact — Hah. Studio"
+  description="Have an idea in mind? Tell Hah. about your brand or website project and start a conversation."
+  current="Contact"
+>
+  <section class="page-hero shell contact-hero">
+    <p class="eyebrow">
+      <span class="status-dot"></span> It starts with a conversation
+    </p>
+    <h1>
+      Hello, there<span class="red">.</span>
+      <br />
+      <span class="muted">What’s on your mind?</span>
+    </h1>
+  </section>
+  <section class="contact-section shell">
+    <div class="contact-copy">
+      <h2>
+        A new idea.
+        <br />A fresh start.
+        <br />A simple hello.
+      </h2>
+      <p>
+        Tell us a little about what you’re thinking. Rough ideas are very
+        welcome.
+      </p>
+      <a class="contact-email" href={`mailto:${email}`}>
+        {email} <Arrow />
+      </a>
+      <div class="contact-note">
+        <span class="eyebrow">Good things start small</span>
+        <p>
+          You don’t need a perfect brief.
+          <br />
+          Just a place to begin.
+        </p>
+      </div>
+    </div>
+    <form id="contact-form" class="contact-form" data-email={email}>
+      <div class="form-row">
+        <div class="field">
+          <label for="name">
+            Your name <span>*</span>
+          </label>
+          <input
+            id="name"
+            name="name"
+            autocomplete="name"
+            placeholder="Alex Smith"
+            required
+            maxlength="100"
+          />
+        </div>
+        <div class="field">
+          <label for="email">
+            Email address <span>*</span>
+          </label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            placeholder="alex@example.com"
+            required
+            maxlength="254"
+          />
+        </div>
+      </div>
+      <div class="field">
+        <label for="company">
+          Company or project <span class="optional">(optional)</span>
+        </label>
+        <input
+          id="company"
+          name="company"
+          autocomplete="organization"
+          placeholder="What’s it called?"
+          maxlength="150"
+        />
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label for="service">
+            I’m interested in <span>*</span>
+          </label>
+          <select id="service" name="service" required>
+            <option value="">Select a service</option>
+            <option value="brand">Brand identity</option>
+            <option value="digital">Digital experiences</option>
+            <option value="direction">Creative direction</option>
+            <option value="other">A bit of everything / Not sure yet</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="budget">
+            Budget <span class="optional">(optional)</span>
+          </label>
+          <select id="budget" name="budget">
+            <option value="">Let’s discuss</option>
+            <option>Under $2,500 USD</option>
+            <option>$2,500–$5,000 USD</option>
+            <option>$5,000–$10,000 USD</option>
+            <option>$10,000+ USD</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="message">
+          A little about your project <span>*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          placeholder="The idea, the goal, the thing you can’t stop thinking about…"
+          required
+          minlength="10"
+          maxlength="5000"
+        ></textarea>
+      </div>
+      <p class="form-help">
+        Prepare your brief, then open it in your email app. Nothing is sent
+        until you send it. Your details aren’t stored on this website.
+      </p>
+      <button class="button button-red" type="submit">
+        Prepare email draft <Arrow />
+      </button>
+      <p class="required-note">* Required fields</p>
+      <div id="contact-result" class="contact-result" hidden>
+        <p role="status" id="form-status"></p>
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          id="email-draft-link"
+          class="text-link"
+          href={`mailto:${email}`}
+        >
+          Open in email app <Arrow />
+        </a>
+        <div class="fallback-actions">
+          <button type="button" id="copy-brief">
+            Copy brief
+          </button>
+          <button type="button" id="download-brief">
+            Download brief
+          </button>
+        </div>
+      </div>
+      <noscript>
+        <p>
+          Please email your project details directly to{" "}
+          <a href={`mailto:${email}`}>{email}</a>. The draft builder needs
+          JavaScript.
+        </p>
+      </noscript>
+    </form>
+  </section>
+  <script>
+    const form = document.querySelector<HTMLFormElement>("#contact-form")!;
+    const select = document.querySelector<HTMLSelectElement>("#service")!;
+    const choice = new URLSearchParams(window.location.search).get("service");
+    if (
+      choice &&
+      Array.from(select.options).some((option) => option.value === choice)
+    )
+      select.value = choice;
+    let brief = "";
+    const status = document.querySelector<HTMLElement>("#form-status")!;
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const name = String(data.get("name") || "").trim();
+      const message = String(data.get("message") || "").trim();
+      if (!name || message.length < 10) {
+        const input = document.querySelector<
+          HTMLInputElement | HTMLTextAreaElement
+        >(!name ? "#name" : "#message")!;
+        input.setCustomValidity(
+          !name
+            ? "Please enter your name."
+            : "Please share at least 10 characters about your project.",
+        );
+        input.reportValidity();
+        input.addEventListener("input", () => input.setCustomValidity(""), {
+          once: true,
+        });
+        return;
+      }
+      brief = `Hello Hah.,\n\n${message}\n\nName: ${name}\nEmail: ${data.get("email")}\nCompany / project: ${String(data.get("company") || "").trim() || "Not specified"}\nInterested in: ${select.selectedOptions[0].text}\nBudget: ${data.get("budget") || "Let’s discuss"}\n`;
+      const href = `mailto:${form.dataset.email}?subject=${encodeURIComponent(`Project inquiry — ${name}`)}&body=${encodeURIComponent(brief)}`;
+      document.querySelector<HTMLAnchorElement>("#email-draft-link")!.href =
+        href;
+      document.querySelector<HTMLElement>("#contact-result")!.hidden = false;
+      status.textContent =
+        "Your brief is ready. Open it in your email app, or copy or download it and email it to " +
+        form.dataset.email +
+        ".";
+    });
+    document
+      .querySelector("#copy-brief")!
+      .addEventListener("click", async () => {
+        try {
+          await navigator.clipboard.writeText(brief);
+          status.textContent =
+            "Brief copied. Paste it into an email to " +
+            form.dataset.email +
+            ".";
+        } catch {
+          status.textContent =
+            "Copy is unavailable in this browser. Download your brief instead.";
+        }
+      });
+    document.querySelector("#download-brief")!.addEventListener("click", () => {
+      const url = URL.createObjectURL(
+        new Blob([brief], { type: "text/plain;charset=utf-8" }),
+      );
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "hah-project-brief.txt";
+      link.click();
+      window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+      status.textContent =
+        "Brief downloaded. Attach it to an email to " +
+        form.dataset.email +
+        ".";
+    });
+  </script>
+</Layout>
