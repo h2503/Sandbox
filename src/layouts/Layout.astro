@@ -1,0 +1,153 @@
+---
+import Asterisk from "../components/Asterisk.astro";
+import "@fontsource/manrope/400.css";
+import "@fontsource/manrope/500.css";
+import "@fontsource/manrope/600.css";
+import "@fontsource/manrope/700.css";
+import "@fontsource/allura/400.css";
+import "../styles/global.css";
+import Mark from "../components/Mark.astro";
+import Arrow from "../components/Arrow.astro";
+interface Props {
+  title: string;
+  description: string;
+  current?: string;
+}
+const { title, description, current = "" } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const links = [
+  ["Home", "/"],
+  ["About", "/about/"],
+  ["Services", "/services/"],
+  ["Contact", "/contact/"],
+];
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site)
+  : undefined;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#191919" />
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    {canonical && (
+      <>
+        <link rel="canonical" href={canonical} />
+        <meta property="og:url" content={canonical} />
+      </>
+    )}
+    <link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <header class="site-header shell">
+      <a class="logo-link" href={`${base}/`} aria-label="Hah. home">
+        <Mark />
+      </a>
+      <button
+        class="menu-toggle"
+        aria-expanded="false"
+        aria-controls="main-nav"
+        aria-label="Open navigation"
+      >
+        <span></span>
+        <span></span>
+      </button>
+      <nav id="main-nav" aria-label="Main navigation">
+        {links.map(([label, href]) => (
+          <a
+            class:list={["nav-link", { active: current === label }]}
+            href={`${base}${href}`}
+            aria-current={current === label ? "page" : undefined}
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+      <a class="header-cta" href={`${base}/contact/`}>
+        Let’s talk <Arrow />
+      </a>
+    </header>
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <footer class="site-footer shell">
+      <div class="footer-top">
+        <a class="logo-link" href={`${base}/`} aria-label="Hah. home">
+          <Mark />
+        </a>
+        <p>
+          Considered design.
+          <br />A lasting impression.
+        </p>
+        <a
+          class="footer-email"
+          href={`mailto:${import.meta.env.PUBLIC_CONTACT_EMAIL || "hafiizhamid@gmail.com"}`}
+        >
+          Say hello <Arrow />
+        </a>
+      </div>
+      <div class="footer-bottom">
+        <span>© {new Date().getFullYear()} Hah. Studio</span>
+        <nav aria-label="Footer navigation">
+          {links.slice(1).map(([label, href]) => (
+            <a href={`${base}${href}`}>{label}</a>
+          ))}
+        </nav>
+        <span class="footer-note">
+          Made with intention{" "}
+          <span aria-hidden="true">
+            <Asterisk />
+          </span>
+        </span>
+      </div>
+    </footer>
+    <script>
+      const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+      const nav = document.querySelector<HTMLElement>("#main-nav");
+      function closeMenu() {
+        toggle?.setAttribute("aria-expanded", "false");
+        toggle?.setAttribute("aria-label", "Open navigation");
+        nav?.classList.remove("is-open");
+      }
+      toggle?.addEventListener("click", () => {
+        const open = toggle.getAttribute("aria-expanded") !== "true";
+        toggle.setAttribute("aria-expanded", String(open));
+        toggle.setAttribute(
+          "aria-label",
+          open ? "Close navigation" : "Open navigation",
+        );
+        nav?.classList.toggle("is-open", open);
+      });
+      document.addEventListener("keydown", (event) => {
+        if (
+          event.key === "Escape" &&
+          toggle?.getAttribute("aria-expanded") === "true"
+        ) {
+          closeMenu();
+          toggle.focus();
+        }
+      });
+      document.addEventListener("click", (event) => {
+        if (
+          event.target instanceof Node &&
+          !nav?.contains(event.target) &&
+          !toggle?.contains(event.target)
+        )
+          closeMenu();
+      });
+      window
+        .matchMedia("(min-width: 761px)")
+        .addEventListener("change", closeMenu);
+    </script>
+  </body>
+</html>

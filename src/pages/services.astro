@@ -1,0 +1,192 @@
+---
+import Asterisk from "../components/Asterisk.astro";
+import Layout from "../layouts/Layout.astro";
+import Arrow from "../components/Arrow.astro";
+import CTA from "../components/CTA.astro";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+const services = [
+  {
+    id: "brand",
+    number: "01",
+    title: "Brand identity",
+    copy: "A brand is a feeling, made recognisable. We help you find your point of view and translate it into a visual identity with clarity and character.",
+    items: [
+      "Brand discovery & positioning",
+      "Visual identity & logo design",
+      "Colour & typography systems",
+      "Practical brand guidelines",
+    ],
+    label: "Build your brand",
+    type: "brand-visual",
+  },
+  {
+    id: "digital",
+    number: "02",
+    title: "Digital experiences",
+    copy: "Your website should feel like you. We design and build considered digital spaces that are intuitive to explore, responsive on every screen, and easy to grow.",
+    items: [
+      "Website strategy & structure",
+      "User experience & interface design",
+      "Responsive website development",
+      "Performance & accessibility",
+    ],
+    label: "Shape your website",
+    type: "digital-visual",
+  },
+  {
+    id: "direction",
+    number: "03",
+    title: "Creative direction",
+    copy: "Bring all the pieces into focus. We create a cohesive visual direction that helps your story feel consistent wherever people meet it.",
+    items: [
+      "Concept development",
+      "Art direction & visual storytelling",
+      "Campaign design systems",
+      "Design guidance & collaboration",
+    ],
+    label: "Find your direction",
+    type: "direction-visual",
+  },
+];
+---
+
+<Layout
+  title="Services — Hah. Studio"
+  description="Brand identity, website design and development, and creative direction. Explore how Hah. can bring your next idea to life."
+  current="Services"
+>
+  <section class="page-hero shell">
+    <p class="eyebrow">What we can make together</p>
+    <h1>
+      Good thinking.
+      <br />
+      <span class="muted">Beautiful outcomes.</span>
+    </h1>
+    <p class="page-lead">
+      From finding your voice to building your digital home. Thoughtful creative
+      work, shaped around what you need.
+    </p>
+  </section>
+  <div class="service-details shell">
+    {services.map((service) => (
+      <section id={service.id} class="service-detail">
+        <div class:list={["service-visual", service.type]} aria-hidden="true">
+          <span>{service.number} / HAH. STUDIO</span>
+          {service.id === "brand" ? (
+            <div class="brand-monogram">
+              Aa<span>One of a kind.</span>
+            </div>
+          ) : service.id === "digital" ? (
+            <div class="digital-stack">
+              <div></div>
+              <div></div>
+              <div></div>
+            </div>
+          ) : (
+            <div class="direction-symbol">
+              <Asterisk />
+            </div>
+          )}
+        </div>
+        <div class="service-detail-copy">
+          <p class="eyebrow">{service.number} / Our expertise</p>
+          <h2>{service.title}</h2>
+          <p>{service.copy}</p>
+          <ul>
+            {service.items.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+          <a class="text-link" href={`${base}/contact/?service=${service.id}`}>
+            {service.label} <Arrow />
+          </a>
+        </div>
+      </section>
+    ))}
+  </div>
+  <section class="process-section shell">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">How we get there</p>
+        <h2>
+          A clear path.
+          <br />A shared vision.
+        </h2>
+      </div>
+      <p>
+        Collaborative from the first hello
+        <br />
+        to the final handover.
+      </p>
+    </div>
+    <div class="process-grid">
+      {[
+        [
+          "01",
+          "Discover",
+          "We listen, ask questions, and get to the heart of what you need.",
+        ],
+        [
+          "02",
+          "Define",
+          "We agree on a direction, scope, and a plan to move forward.",
+        ],
+        [
+          "03",
+          "Create",
+          "We explore, design, and refine together, with room for feedback.",
+        ],
+        [
+          "04",
+          "Deliver",
+          "We bring it all together and hand over the tools to make it yours.",
+        ],
+      ].map(([n, title, copy]) => (
+        <article>
+          <span class="eyebrow red">{n}</span>
+          <h3>{title}</h3>
+          <p>{copy}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+  <section class="faq-section shell">
+    <p class="eyebrow">A few useful answers</p>
+    <h2>Before we begin.</h2>
+    <div class="faq-list">
+      <details>
+        <summary>What kind of projects are a good fit?</summary>
+        <p>
+          New brands, thoughtful refreshes, and websites for independent
+          businesses or creative projects. If you value clarity and a considered
+          approach, we’d like to hear your idea.
+        </p>
+      </details>
+      <details>
+        <summary>How much does a project cost?</summary>
+        <p>
+          Every project has its own scope. Share your goals, budget, and
+          timeline, and we can work out a proposal that makes sense before
+          anything begins.
+        </p>
+      </details>
+      <details>
+        <summary>Can we work together remotely?</summary>
+        <p>
+          Absolutely. Clear communication and shared feedback keep a project
+          moving wherever you are. We can agree on a rhythm that works for
+          everyone.
+        </p>
+      </details>
+      <details>
+        <summary>Can you help with just one part of a project?</summary>
+        <p>
+          Yes. We can focus on an identity, a website, or a specific creative
+          challenge. Tell us what you already have and where you need a fresh
+          perspective.
+        </p>
+      </details>
+    </div>
+  </section>
+  <CTA />
+</Layout>

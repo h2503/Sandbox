@@ -1,0 +1,26 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Arrow from "../components/Arrow.astro";
+const base = import.meta.env.BASE_URL.replace(/\/$/, "");
+---
+
+<Layout
+  title="Page not found — Hah. Studio"
+  description="That page has wandered off. Head back to Hah. Studio."
+>
+  <section class="page-hero shell not-found">
+    <p class="eyebrow">404 / A little off course</p>
+    <h1>
+      Nothing here<span class="red">.</span>
+      <br />
+      <span class="muted">Plenty to explore.</span>
+    </h1>
+    <p class="page-lead">
+      The page you’re looking for may have moved. Let’s get you back to a good
+      place.
+    </p>
+    <a class="button button-red" href={`${base}/`}>
+      Back to home <Arrow />
+    </a>
+  </section>
+</Layout>

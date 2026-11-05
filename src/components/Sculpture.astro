@@ -1,0 +1,89 @@
+---
+const { id = "hero" } = Astro.props;
+---
+
+<svg
+  class="sculpture"
+  viewBox="0 0 620 680"
+  fill="none"
+  role="img"
+  aria-labelledby={`${id}-title`}
+>
+  <title
+    id={`${id}-title`}
+  >An abstract crimson ribbon folded into an open loop</title>
+  <defs>
+    <linearGradient
+      id={`${id}-outer`}
+      x1="160"
+      y1="150"
+      x2="500"
+      y2="510"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#fe5a5f" />
+      <stop offset=".25" stop-color="#c82336" />
+      <stop offset=".52" stop-color="#8c0c20" />
+      <stop offset=".7" stop-color="#e73a49" />
+      <stop offset="1" stop-color="#540b19" />
+    </linearGradient>
+    <linearGradient
+      id={`${id}-inner`}
+      x1="400"
+      y1="160"
+      x2="220"
+      y2="490"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#650c1c" />
+      <stop offset=".5" stop-color="#250b12" />
+      <stop offset="1" stop-color="#f34b58" />
+    </linearGradient>
+    <linearGradient
+      id={`${id}-edge`}
+      x1="170"
+      y1="200"
+      x2="450"
+      y2="520"
+      gradientUnits="userSpaceOnUse"
+    >
+      <stop stop-color="#ff8b8b" />
+      <stop offset=".5" stop-color="#c21d30" />
+      <stop offset="1" stop-color="#640e20" />
+    </linearGradient>
+    <filter id={`${id}-shadow`} x="-50%" y="-100%" width="200%" height="300%">
+      <feGaussianBlur stdDeviation="16" />
+    </filter>
+  </defs>
+  <ellipse
+    cx="316"
+    cy="586"
+    rx="130"
+    ry="14"
+    fill="#000"
+    opacity=".55"
+    filter={`url(#${id}-shadow)`}
+  />
+  <g transform="rotate(-24 310 330)">
+    <path
+      d="M310 103C201 103 132 192 132 327v84c0 103 75 165 178 165 102 0 178-62 178-165v-84c0-135-69-224-178-224Zm0 86c54 0 85 56 85 138v73c0 48-29 78-85 78s-85-30-85-78v-73c0-82 31-138 85-138Z"
+      fill={`url(#${id}-outer)`}
+      fill-rule="evenodd"
+    />
+    <path
+      d="M310 189c-54 0-85 56-85 138v73c0 48 29 78 85 78 20 0 37-4 50-11-64 7-98-24-98-81v-67c0-74 28-120 75-126a110 110 0 0 0-27-4Z"
+      fill={`url(#${id}-inner)`}
+    />
+    <path
+      d="M310 103C201 103 132 192 132 327v84c0 103 75 165 178 165"
+      stroke={`url(#${id}-edge)`}
+      stroke-width="2"
+    />
+    <path
+      d="M395 327v73c0 48-29 78-85 78"
+      stroke="#f25760"
+      stroke-opacity=".4"
+      stroke-width="1.5"
+    />
+  </g>
+</svg>
